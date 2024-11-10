@@ -15,14 +15,16 @@ const schema = z.object({
 type formData = z.infer<typeof schema>;
 
 interface Props {
+  len: number,
   onClick: (data: {
+    id: number;
     description: string;
     amount: number;
     category: string;
   }) => void;
 }
 
-const GetData = ({ onClick }: Props) => {
+const GetData = ({ len, onClick }: Props) => {
   const {
     register,
     handleSubmit,
@@ -32,8 +34,9 @@ const GetData = ({ onClick }: Props) => {
   return (
     <form
       onSubmit={handleSubmit((data) => {
-        console.log(data);
-        onClick(data);
+        const data1 = {...data, id: len+1}
+        console.log(data1);
+        onClick(data1);
       })}
     >
       <div className="m-3">

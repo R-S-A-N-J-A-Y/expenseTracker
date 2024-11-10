@@ -1,21 +1,24 @@
 import { useState } from "react";
+import { FaX } from "react-icons/fa6";
 
-interface Props{
-    data: {  
-        description: string,
-        amount: number,
-        category: string,
-    }[]
+interface Props {
+  data: {
+    id: number;
+    description: string;
+    amount: number;
+    category: string;
+  }[],
+  onClickBtn: (data: number) => void;
 };
 
-const ShowData = ({ data }: Props) => {
+const ShowData = ({ data, onClickBtn }: Props) => {
   const [selectedId, setSelectedId] = useState("");
 
-
   const filterData = () => {
+    if (selectedId == "All")
+        return data
     return data.filter((item) => item.category === selectedId);
   };
-  
 
   return (
     <>
@@ -24,13 +27,16 @@ const ShowData = ({ data }: Props) => {
         aria-label="Default select example"
         onChange={(event) => {
           setSelectedId(event.target.value);
+          console.log(event.target.value);
         }}
       >
         <option defaultValue={"Select the Option"} value="0"></option>
         <option value="Groceries">Groceries</option>
         <option value="Utilities">Utilities</option>
         <option value="Entertainment">Entertainment</option>
+        <option value="All">All</option>
       </select>
+
       <table className="table table-bordered">
         <thead>
           <tr>
@@ -41,10 +47,19 @@ const ShowData = ({ data }: Props) => {
         </thead>
         <tbody>
           {filterData().map((item) => (
-            <tr key={item.description}>
+            <tr key={item.id}>
               <td>{item.description}</td>
               <td>{item.amount}</td>
               <td>{item.category}</td>
+              <button
+                key={item.id}
+                type="button"
+                className="btn btn-danger btn-sm m-2 "
+                style={{ width: "30px", height: "30px", backgroundColor: 'red'  }}
+                onClick = {() => onClickBtn(item.id)}
+              >
+                <FaX color="white" size={"15px"} className="mb-2 me-1" />
+              </button>
             </tr>
           ))}
         </tbody>
