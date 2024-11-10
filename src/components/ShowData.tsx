@@ -20,6 +20,10 @@ const ShowData = ({ data, onClickBtn }: Props) => {
     return data.filter((item) => item.category === selectedId);
   };
 
+  const filteredData = filterData();
+  const totExpense = filteredData.reduce((sum, item) => sum + item.amount, 0);
+
+
   return (
     <>
       <select
@@ -64,7 +68,7 @@ const ShowData = ({ data, onClickBtn }: Props) => {
           ))}
         </tbody>
       </table>
-      ;
+      { filteredData.length > 0 && <p>Total Expense: {totExpense}</p>}
     </>
   );
 };

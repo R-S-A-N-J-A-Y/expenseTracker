@@ -8,13 +8,13 @@ const App = () => {
     {
       id: 1,
       description: "milk",
-      amount: 1,
+      amount: 15,
       category: "Groceries",
     },
     {
       id: 2,
       description: "eggs",
-      amount: 10,
+      amount: 6.50,
       category: "Groceries",
     },
     {
@@ -26,7 +26,7 @@ const App = () => {
     {
       id: 4,
       description: "movie",
-      amount: 1,
+      amount: 200,
       category: "Entertainment",
     },
   ]);
