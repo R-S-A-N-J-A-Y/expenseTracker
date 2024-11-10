@@ -29,14 +29,15 @@ const GetData = ({ len, onClick }: Props) => {
     register,
     handleSubmit,
     formState: { errors, isValid },
+    reset,
   } = useForm<formData>({ resolver: zodResolver(schema) });
 
   return (
     <form
       onSubmit={handleSubmit((data) => {
         const data1 = {...data, id: len+1}
-        console.log(data1);
         onClick(data1);
+        reset();
       })}
     >
       <div className="m-3">
