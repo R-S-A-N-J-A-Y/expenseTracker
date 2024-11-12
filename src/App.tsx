@@ -1,9 +1,11 @@
 import { useState } from "react";
 import GetData from "./components/GetData"
-import ShowData from "./components/ShowData"
+import ExpenseList from "./components/ExpenseList"
+import ExpenseFilter from "./components/ExpenseFilter";
 
 const App = () => {
 
+  const [SelectedCategory, setSelectedCategory] = useState("");
   const [data, setData] = useState([
     {
       id: 1,
@@ -35,10 +37,13 @@ const App = () => {
     setData(data.filter((item) => item.id !== ind))
   }
 
+  const filteredData = SelectedCategory ? data.filter(item => item.category === SelectedCategory) : data;
+
   return (
     <>
       <GetData len={data.length} onClick={(newData) => setData([...data, newData])}/>
-      <ShowData data={data} onClickBtn = {(ind: number) => remover(ind)} />
+      <ExpenseFilter onSelect={(data) => setSelectedCategory(String(data))}/>
+      <ExpenseList data={filteredData} onDelete = {(ind: number) => remover(ind)} />
     </>
   )
 }
