@@ -1,42 +1,39 @@
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Categories from "../Categories";
 
 const schema = z.object({
   description: z
     .string()
-    .min(3, { message: "Name of product must be 3 letter." }),
+    .min(3, { message: "Name of product must be 3 letter." })
+    .max(50, { message: "Name cannot be more than 50 letters." }),
   amount: z
-    .number({ invalid_type_error: "Amount cannot be empty." })
+    .number({ invalid_type_error: "Amount is Required." })
     .min(0, { message: "amount cannot be zero" }),
-  category: z.string(),
+  category: z.enum(Categories, {
+    errorMap: () => ({message: "Category is Required."})
+  }),
 });
 
 type formData = z.infer<typeof schema>;
 
 interface Props {
-  len: number,
-  onClick: (data: {
-    id: number;
-    description: string;
-    amount: number;
-    category: string;
-  }) => void;
+  onClick: (data: formData) => void;
 }
 
-const GetData = ({ len, onClick }: Props) => {
+const ExpenseGetterForm = ({ onClick }: Props) => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
     reset,
   } = useForm<formData>({ resolver: zodResolver(schema) });
 
   return (
     <form
       onSubmit={handleSubmit((data) => {
-        const data1 = {...data, id: len+1}
-        onClick(data1);
+        onClick(data);
         reset();
       })}
     >
@@ -76,18 +73,23 @@ const GetData = ({ len, onClick }: Props) => {
           className="mt-2 form-select"
           aria-label="Default select example"
         >
-          <option defaultValue={"Select the Option"} value="0"></option>
-          <option value="Groceries">Groceries</option>
-          <option value="Utilities">Utilities</option>
-          <option value="Entertainment">Entertainment</option>
+          <option defaultValue={"Select the Option"} value=""></option>
+          {Categories.map((item) => (
+            <option key={item} value={item}>
+              {item}
+            </option>
+          ))}
         </select>
+        {errors.category && (
+          <p className="text-danger">{errors.category.message}</p>
+        )}
       </div>
 
-      <button disabled={!isValid} type="submit" className="btn btn-primary m-3">
+      <button type="submit" className="btn btn-primary m-3">
         Submit
       </button>
     </form>
   );
 };
 
-export default GetData;
+export default ExpenseGetterForm;
