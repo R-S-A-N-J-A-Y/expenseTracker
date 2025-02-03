@@ -1,7 +1,11 @@
-import ExpenseApp from "./components/ExpenseApp"
+import ExpenseApp from "./components/ExpenseApp";
 
 const App = () => {
-  return <ExpenseApp />
-}
+  return (
+    <div className="p-2">
+      <ExpenseApp />
+    </div>
+  );
+};
 
-export default App
+export default App;

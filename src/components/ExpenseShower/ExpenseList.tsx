@@ -26,7 +26,8 @@ const ExpenseList = ({ data, onDelete }: Props) => {
         </thead>
 
         <tbody>
-          {data.map((item) => (
+          {data.map( item => (
+
             <tr key={item.id}>
               <td>{item.description}</td>
               <td>{item.amount}</td>
@@ -42,8 +43,10 @@ const ExpenseList = ({ data, onDelete }: Props) => {
                 </button>
               </td>
             </tr>
+            
           ))}
         </tbody>
+
         
         <tfoot>
           <tr>
